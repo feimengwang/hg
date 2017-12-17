@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.true123.hg.dao.RoleDao">
+
+    <!--基础字段映射关系 开始-->
+    <resultMap id="BaseResultMap" type="cn.true123.hg.domain.role.Role">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <!--基础字段映射关系 结束-->
+
+
+    <!--字段 Base_Column 开始-->
+    <sql id="Base_Column_List">
+        id,role_name
+    </sql>
+    <!--字段 Base_Column 结束-->
+
+
+    <!-- 插入(开始) -->
+    <insert id="insert" parameterType="cn.true123.hg.domain.role.Role" useGeneratedKeys="true" keyProperty="id">
+        insert into role(
+        role_name
+        ) values (
+        #{roleName,jdbcType=VARCHAR}
+        )
+    </insert>
+    <!-- 插入(结束) -->
+
+    <!-- 根据主键物理删除(开始) -->
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+        delete role where
+        id = #{id,jdbcType=BIGINT}
+    </delete>
+    <!-- 根据主键物理删除(结束) -->
+
+    <update id="update" parameterType="cn.true123.hg.domain.role.Role">
+        update role set
+        role_name = #{roleName,jdbcType=VARCHAR}
+        <where>
+            id = #{id,jdbcType=BIGINT}
+        </where>
+    </update>
+
+
+    <!-- 更新 忽略传入空值(开始) -->
+    <select id="querySingleRole" parameterType="cn.true123.hg.domain.role.Role" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+        <where>
+            id = #{id,jdbcType=BIGINT}
+        </where>
+    </select>
+    <!-- 更新 忽略传入空值 -->
+
+    <select id="queryRole" parameterType="cn.true123.hg.domain.role.Role" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from role
+    </select>
+</mapper>

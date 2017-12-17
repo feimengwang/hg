@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.true123.hg.dao.UserDao">
+
+    <resultMap id="BaseResultMap" type="cn.true123.hg.domain.user.User">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="user_pw" property="userPw" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_name,user_pw,email,phone
+    </sql>
+
+    <!-- 插入(开始) -->
+    <insert id="insert" parameterType="cn.true123.hg.domain.user.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(
+        user_name,
+        user_pw,
+        email,
+        phone
+        ) values (
+        #{userName,jdbcType=VARCHAR},
+        #{userPw,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR}
+        )
+    </insert>
+    <!-- 插入(结束) -->
+
+    <!-- 插入，可空字段过滤null值(开始) -->
+    <insert id="insertByUser" parameterType="cn.true123.hg.domain.user.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            user_name,
+            user_pw,
+            email,
+            phone,
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #{userName,jdbcType=VARCHAR},
+            #{userPw,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR},
+            #{phone,jdbcType=VARCHAR},
+        </trim>
+    </insert>
+    <!-- 插入，可空字段过滤null值(结束) -->
+
+    <!-- 根据主键逻辑删除(开始) -->
+    <delete id="deleteByPrimaryKey" parameterType="Long">
+        delete user where
+        id = #{id,jdbcType=BIGINT}
+    </delete>
+    <!-- 根据主键逻辑删除(结束) -->
+
+    <!-- 删除(开始) -->
+    <delete id="delete" parameterType="cn.true123.hg.domain.user.User">
+        DELETE user
+        <trim prefixOverrides="WHERE" prefix="AND">
+            <if test="id != null and id != ''" >
+                and id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="userName != null and userName != ''" >
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="userPw != null and userPw != ''" >
+                and user_pw = #{userPw,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and email != ''" >
+                and email = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''" >
+                and phone = #{phone,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </delete>
+    <!-- 删除(结束) -->
+
+    <!-- 根据主键更新所有字段(开始) -->
+    <update id="update" parameterType="cn.true123.hg.domain.user.User">
+        update user set
+        user_name = #{userName,jdbcType=VARCHAR},
+        user_pw = #{userPw,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR}
+        <where>
+            id = #{id,jdbcType=BIGINT}
+        </where>
+    </update>
+    <!-- 根据主键更新所有字段(结束) -->
+
+    <!-- 更新 忽略传入空值(开始) -->
+    <update id="updateByUser" parameterType="cn.true123.hg.domain.user.User">
+        update user
+        <set>
+            <trim suffix="" suffixOverrides="," >
+                <if test="id != null and id !=''">
+                    id = #{id,jdbcType=BIGINT},
+                </if>
+                <if test="userName != null and userName !=''">
+                    user_name = #{userName,jdbcType=VARCHAR},
+                </if>
+                <if test="userPw != null and userPw !=''">
+                    user_pw = #{userPw,jdbcType=VARCHAR},
+                </if>
+                <if test="email != null and email !=''">
+                    email = #{email,jdbcType=VARCHAR},
+                </if>
+                <if test="phone != null and phone !=''">
+                    phone = #{phone,jdbcType=VARCHAR},
+                </if>
+            </trim>
+        </set>
+        <trim prefix="where" prefixOverrides="AND | OR" >
+            <if test="id != null and id !=''" >
+                and id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="userName != null and userName !=''" >
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="userPw != null and userPw !=''" >
+                and user_pw = #{userPw,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and email !=''" >
+                and email = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone !=''" >
+                and phone = #{phone,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </update>
+
+    <!-- 更新 忽略传入空值(开始) -->
+    <select id="queryUser" parameterType="cn.true123.hg.domain.user.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <trim prefixOverrides="where" prefix="and | or">
+            <if test="id != null and id != ''" >
+                and id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="userName != null and userName != ''" >
+                and user_name = #{userName,jdbcType=VARCHAR}
+            </if>
+            <if test="userPw != null and userPw != ''" >
+                and user_pw = #{userPw,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null and email != ''" >
+                and email = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="phone != null and phone != ''" >
+                and phone = #{phone,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </select>
+    <!-- 更新 忽略传入空值 -->
+</mapper>
